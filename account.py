@@ -1,4 +1,3 @@
-
 """
 Программа "Личный счет"
 Описание работы программы:
@@ -34,9 +33,24 @@
 Для реализации основного меню можно использовать пример ниже или написать свой
 """
 
+
+def add_item(purchases, item, expenses):
+    purchases = dict(purchases)  # create new object
+    purchases[item] = expenses  # add new expenses
+    return purchases
+
+
+def increment_acount(acount, value):
+    return acount + value
+
+
+def decrement_acount(acount, value):
+    return acount - value
+
+
 def start_account():
     acount = 0
-    purchases ={}
+    purchases = {}
 
     while True:
         print(f'На Вашем счете {acount}')
@@ -48,25 +62,26 @@ def start_account():
         choice = input('Выберите пункт меню ')
         if choice == '1':
             refill = int(input('Какую сумму хотите внести?: '))
-            acount += refill
+            acount = increment_acount(acount, refill)
         elif choice == '2':
             expenses = int(input('Какую сумму потратим?: '))
             if expenses > acount:
-              print('Не достаточно средств')
+                print('Не достаточно средств')
             else:
-              item = input('Что покупаем?: ')
-              purchases[item] = expenses
-              acount -= expenses
+                item = input('Что покупаем?: ')
+                purchasess = add_item(purchases, item, expenses)
+                acount = decrement_acount(acount, expenses)
         elif choice == '3':
             print()
             print('Ваши покупки')
             for k, v in purchases.items():
-              print(f'{k} - {v}')
+                print(f'{k} - {v}')
         elif choice == '4':
             break
         else:
             print('Неверный пункт меню')
         print()
+
 
 if __name__ == '__main__':
     start_account()
