@@ -5,6 +5,22 @@ import sys
 from victory import start_victory
 from account import start_account
 
+def file_dir_copy(filedirname1, filedirname2):
+    if os.path.exists(filedirname1):
+        if os.path.isdir(filedirname1):
+            shutil.copytree(filedirname1, filedirname2)  # dir
+        else:
+            shutil.copy(filedirname1, filedirname2)  # file
+
+def show_dirs(current_dir):
+    oslist = os.listdir(current_dir)
+    dirlist = list(filter(lambda x: os.path.isdir(x), oslist))
+    return dirlist
+
+def show_files(current_dir):
+    oslist = os.listdir(current_dir)
+    filelist = list(filter(lambda x: not os.path.isdir(x), oslist))
+    return filelist
 
 def main():
     print('Wellcome to console FileManager!')
@@ -42,21 +58,15 @@ def main():
         elif choice == '3':  # копировать (файл/папку)
             filedirname1 = input('Введите имя файла/папки которую копировать: ')
             filedirname2 = input('Введите имя файла/папки в которую копировать: ')
-            if os.path.exists(filedirname1):
-                if os.path.isdir(filedirname1):
-                    shutil.copytree(filedirname1, filedirname2)  # dir
-                else:
-                    shutil.copy(filedirname1, filedirname2)  # file
+            file_dir_copy(filedirname1, filedirname2) # copy file or dir
         elif choice == '4':  # просмотр содержимого рабочей директории
             oslist = os.listdir(os.getcwd())
             print(oslist)
         elif choice == '5':  # посмотреть только папки
-            oslist = os.listdir(os.getcwd())
-            dirlist = list(filter(lambda x: os.path.isdir(x), oslist))
+            dirlist = show_dirs(os.getcwd())
             print(dirlist)
         elif choice == '6':  # посмотреть только файлы
-            oslist = os.listdir(os.getcwd())
-            filelist = list(filter(lambda x: not os.path.isdir(x), oslist))
+            filelist = show_files(os.getcwd())
             print(filelist)
         elif choice == '7':  # просмотр информации об операционной системе
             sysinfo = f'My OS is {sys.platform} ({os.name})'
